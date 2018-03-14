@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">DatabaseProject</string>
+
+    <string name="LOGIN_STATUS">LOGIN</string>
+
+    <string name="Login">Login</string>
+    <string name="SignUp">Sign Up</string>
+    <string name="Log_Out">Log Out</string>
+    <string name="Profile">Profile</string>
+
+    <string name="email">Email Address</string>
+    <string name="Password">Password</string>
+
+    <string name="NetworkError">Network Connection Error</string>
+
+    <string name="Username_s">Username*</string>
+    <string name="Password_s">Password*</string>
+    <string name="Verify_Password_s">Verify Password*</string>
+    <string name="Name_s">Name*</string>
+    <string name="First_Name_s">First Name*</string>
+    <string name="Last_Name_s">Last Name*</string>
+    <string name="Location_s">Location*</string>
+    <string name="Email_s">Email*</string>
+    <string name="Phone_s">Phone*</string>
+    <string name="Street_Address_s">Street Address*</string>
+    <string name="City_s">City*</string>
+    <string name="State_s">State*</string>
+    <string name="Zipcode_s">Zipcode*</string>
+
+</resources>

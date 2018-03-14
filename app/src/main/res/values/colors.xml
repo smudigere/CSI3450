@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="translucent_colorPrimary">#30ED1C24</color>
+    <color name="dunhams_yellow">#F8A918</color>
+
+    <color name="headerBackground">#757575</color>
+    <color name="itemBackground">#3e3e3e</color>
+    <color name="itemTextColor">#eeeeee</color>
+
+</resources>
