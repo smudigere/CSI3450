@@ -1,9 +1,5 @@
 package databaseproject.app;
 
-/**
- * Created by smudigere on 3/13/18.
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;

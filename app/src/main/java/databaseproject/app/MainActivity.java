@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (!prefs.getBoolean(getString(R.string.LOGIN_STATUS), false))
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-
     }
 
 
@@ -56,13 +55,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item1:
+            case R.id.profile:
                 Toast.makeText(this, "Show Profile!", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.item2:
+            case R.id.cart:
+                startActivity(new Intent(getApplicationContext(), CartActivity.class));
+                return true;
+            case R.id.logout:
 
                 Toast.makeText(this, "Logged Out!", Toast.LENGTH_SHORT).show();
                 prefs.edit().putBoolean(getString(R.string.LOGIN_STATUS), false).apply();
+                prefs.edit().remove(getString(R.string.USERINFO)).apply();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
                 return true;

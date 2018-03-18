@@ -157,6 +157,7 @@ public class Login extends Fragment implements
 
             Toast.makeText(getContext(), "Logged in!", Toast.LENGTH_SHORT).show();
             prefs.edit().putBoolean(getString(R.string.LOGIN_STATUS), true).apply();
+            prefs.edit().putString(getString(R.string.USERINFO), result).apply();
             getActivity().finish();
 
         } catch (Exception e) {

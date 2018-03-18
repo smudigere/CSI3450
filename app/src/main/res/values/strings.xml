@@ -2,11 +2,14 @@
     <string name="app_name">DatabaseProject</string>
 
     <string name="LOGIN_STATUS">LOGIN</string>
+    <string name="USERINFO">UserInfo</string>
 
     <string name="Login">Login</string>
     <string name="SignUp">Sign Up</string>
     <string name="Log_Out">Log Out</string>
     <string name="Profile">Profile</string>
+    <string name="Products">Products</string>
+    <string name="Cart">Cart</string>
 
     <string name="email">Email Address</string>
     <string name="Password">Password</string>

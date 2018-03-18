@@ -2,12 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item1"
+        android:id="@+id/profile"
         android:title="@string/Profile"
         />
 
     <item
-        android:id="@+id/item2"
+        android:id="@+id/cart"
+        android:title="@string/Cart"
+        />
+
+    <item
+        android:id="@+id/logout"
         android:title="@string/Log_Out"
         />
 
