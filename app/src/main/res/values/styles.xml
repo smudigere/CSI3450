@@ -22,4 +22,11 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style
+        name="RoundedCorners"
+        parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
 </resources>

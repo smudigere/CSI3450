@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,10 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import databaseproject.app.Utility.HttpConnection;
+import databaseproject.app.Utility.Queries;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        AdapterView.OnItemClickListener{
 
     private SharedPreferences prefs;
+    private JSONArray jsonArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        try {
+
+            Intent intent = new Intent(getApplicationContext(), ProductActivity.class);
+            intent.putExtra("JSON", jsonArray.getJSONObject(i).toString());
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class GetProducts extends AsyncTask<Void, Void, String> {
 
@@ -84,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             try {
 
                 return HttpConnection
-                        .dbConnection("SELECT * FROM PRODUCT;");
+                        .dbConnection(Queries.GETALLPRODUCTS.e);
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -99,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
 
-                JSONArray jsonArray = new JSONArray(s);
+                jsonArray = new JSONArray(s);
                 List<JSONObject> jsonObjects = new ArrayList<>();
                 ListView listView = (ListView) findViewById(R.id.listView);
 
@@ -108,12 +128,11 @@ public class MainActivity extends AppCompatActivity {
 
                 ListViewAdapter adapter = new ListViewAdapter(jsonObjects, getApplicationContext());
                 listView.setAdapter(adapter);
-
+                listView.setOnItemClickListener(MainActivity.this);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-
 }

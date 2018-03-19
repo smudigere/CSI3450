@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="addButtonColor">#216300</color>
+
     <color name="translucent_colorPrimary">#30ED1C24</color>
     <color name="dunhams_yellow">#F8A918</color>
 

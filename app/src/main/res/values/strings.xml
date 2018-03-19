@@ -9,7 +9,12 @@
     <string name="Log_Out">Log Out</string>
     <string name="Profile">Profile</string>
     <string name="Products">Products</string>
+    <string name="Product">Product</string>
     <string name="Cart">Cart</string>
+    <string name="Date_Added_c">Date Added: </string>
+    <string name="Category_c">Category: </string>
+    <string name="Quantity_c">Quantity: </string>
+    <string name="Add_To_Cart">Add to Cart</string>
 
     <string name="email">Email Address</string>
     <string name="Password">Password</string>
