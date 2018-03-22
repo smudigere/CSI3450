@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.profile:
-                Toast.makeText(this, "Show Profile!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 return true;
             case R.id.cart:
                 startActivity(new Intent(getApplicationContext(), CartActivity.class));
@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements
         protected String doInBackground(Void... voids) {
 
             try {
+
+                HttpConnection.dbConnection(Queries.GETALLPRODUCTS.e);
 
                 return HttpConnection
                         .dbConnection(Queries.GETALLPRODUCTS.e);

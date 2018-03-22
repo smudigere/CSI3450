@@ -8,7 +8,7 @@ import org.json.JSONArray;
 
 public class GetData extends AsyncTask<Void, Void, String> {
 
-    private String link = "";
+    private String link = "http://service.cpw.bz/get_coupons_by_location?API_KEY=1fDtlEz81XfjY9W49JvgsJ2mqK&radius=2.5&lat=37.3093131&lon=-122.0786639";
 
     @Override
     protected String doInBackground(Void... voids) {

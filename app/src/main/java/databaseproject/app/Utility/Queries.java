@@ -2,7 +2,7 @@ package databaseproject.app.Utility;
 
 public enum Queries {
 
-    GETALLPRODUCTS("SELECT * FROM PRODUCT;"),
+    GETALLPRODUCTS("SELECT * FROM PRODUCT WHERE QUANTITY != 0;"),
     GETCARTOFUSER("SELECT " +
             "CART.C_ID, CART.P_ID, CART.U_ID, CART.QUANTITY, CART.P_ID, " +
             "PRODUCT.PRODUCT_NAME, PRODUCT.CATEGORY, PRODUCT.IMAGE " +

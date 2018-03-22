@@ -34,5 +34,12 @@
     <string name="City_s">City*</string>
     <string name="State_s">State*</string>
     <string name="Zipcode_s">Zipcode*</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+
+    <string name="Name_c">Name:\t\t</string>
+    <string name="Email_c">Email:\t\t</string>
+    <string name="Phone_c">Phone:\t\t</string>
+    <string name="Address_c">Address:\t\t</string>
 
 </resources>
