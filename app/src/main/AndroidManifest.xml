@@ -34,7 +34,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="databaseproject.app.ItemListActivity" />
         </activity>
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".SellerActivity"></activity>
     </application>
 
 </manifest>

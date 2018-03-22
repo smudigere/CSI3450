@@ -2,12 +2,15 @@ package databaseproject.app;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,10 +59,10 @@ public class Login extends Fragment implements
         prefs = getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE);
 
         userName = (TextInputEditText) view.findViewById(R.id.userName);
-        //userName.setText("samartha309@gmail.com");
+        userName.setText("samq309@test.com");
 
         password = (TextInputEditText) view.findViewById(R.id.password);
-        //password.setText("pk070183");
+        password.setText("test1234");
 
         Button loginButton = (Button) view.findViewById(R.id.login_button);
         loginButton.setOnClickListener(this);
@@ -149,19 +152,52 @@ public class Login extends Fragment implements
         }.execute();
     }
 
-    private void loading_success(String result) {
+    private void loading_success(final String result) {
 
         try {
 
             JSONArray jsonArray = new JSONArray(result);
 
-            Toast.makeText(getContext(), "Logged in!", Toast.LENGTH_SHORT).show();
-            prefs.edit().putBoolean(getString(R.string.LOGIN_STATUS), true).apply();
-            prefs.edit().putString(getString(R.string.USERINFO), result).apply();
-            getActivity().finish();
+            if (jsonArray.getJSONObject(0).getString("U_TYPE").equals("BOTH")) {
+
+                final CharSequence loginTypes[] = new CharSequence[] {"BUYER", "SELLER"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Login as...");
+                builder.setItems(loginTypes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("onCLick", (String) loginTypes[which]);
+
+                        if (which == 1)
+                            enterBuyerScreen(result);
+                        else
+                            enterSellerScreen(result);
+                    }
+                });
+                builder.show();
+            } if (jsonArray.getJSONObject(0).getString("U_TYPE").equals("SELLER"))
+                enterSellerScreen(result);
+            else
+                enterBuyerScreen(result);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void enterBuyerScreen(String result) {
+        Toast.makeText(getContext(), "Logged in!", Toast.LENGTH_SHORT).show();
+        prefs.edit().putBoolean(getString(R.string.LOGIN_STATUS), true).apply();
+        prefs.edit().putString(getString(R.string.USERINFO), result).apply();
+        startActivity(new Intent(getContext(), MainActivity.class));
+    }
+
+
+    private void enterSellerScreen(String result) {
+        Toast.makeText(getContext(), "Logged in!", Toast.LENGTH_SHORT).show();
+        prefs.edit().putBoolean(getString(R.string.LOGIN_STATUS), true).apply();
+        prefs.edit().putString(getString(R.string.USERINFO), result).apply();
+        startActivity(new Intent(getContext(), SellerActivity.class));
     }
 }

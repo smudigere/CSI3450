@@ -181,11 +181,8 @@ public class SignUp extends Fragment implements
                 super.onPostExecute(result);
 
                 if (result) {
-
-                    Toast.makeText(getContext(), "User Created!", Toast.LENGTH_SHORT).show();
-                    prefs.edit().putBoolean(getString(R.string.LOGIN_STATUS), true).apply();
-                    getActivity().finish();
-
+                    ((LoginActivity) getActivity()).getTabLayout().getTabAt(0).select();
+                    Toast.makeText(getContext(), "User Created! Now Login!", Toast.LENGTH_SHORT).show();
                 } else
                     HttpConnection.noInternetAlert(getContext());
 
@@ -205,20 +202,5 @@ public class SignUp extends Fragment implements
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
-    }
-
-
-    /**
-     * Save the user data, and change the login status to true,
-     * as the login call was a success.
-     */
-    private void login_success(String access_token)    {
-
-        try {
-
-
-        } catch (Exception e)   {
-            Log.v("E", "CC");
-        }
     }
 }

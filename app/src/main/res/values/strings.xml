@@ -42,4 +42,6 @@
     <string name="Phone_c">Phone:\t\t</string>
     <string name="Address_c">Address:\t\t</string>
 
+    <string name="Seller">Seller</string>
+
 </resources>

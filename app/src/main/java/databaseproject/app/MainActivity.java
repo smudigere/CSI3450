@@ -36,8 +36,10 @@ public class MainActivity extends AppCompatActivity implements
 
         prefs = getSharedPreferences(getPackageName(), MODE_PRIVATE);
 
-        if (!prefs.getBoolean(getString(R.string.LOGIN_STATUS), false))
+        if (!prefs.getBoolean(getString(R.string.LOGIN_STATUS), false)) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            finish();
+        }
     }
 
 
