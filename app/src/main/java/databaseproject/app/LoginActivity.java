@@ -69,6 +69,14 @@ public class LoginActivity extends AppCompatActivity {
         return tabLayout;
     }
 
+    protected Fragment getLogin() {
+        return login;
+    }
+
+    protected Fragment getSignUp() {
+        return signUp;
+    }
+
     /**
      * Method to replace fragments between {@link Login} and {@link SignUp}.
      *

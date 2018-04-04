@@ -35,6 +35,10 @@ public class Login extends Fragment implements
         View.OnClickListener    {
 
 
+    public TextInputEditText getUserName() {
+        return userName;
+    }
+
     private TextInputEditText userName, password;
 
     private SharedPreferences prefs;
@@ -169,18 +173,19 @@ public class Login extends Fragment implements
                     public void onClick(DialogInterface dialog, int which) {
                         Log.i("onCLick", (String) loginTypes[which]);
 
-                        if (which == 1)
+                        if (which == 0)
                             enterBuyerScreen(result);
                         else
                             enterSellerScreen(result);
                     }
                 });
                 builder.show();
-            } if (jsonArray.getJSONObject(0).getString("U_TYPE").equals("SELLER"))
+            } else if (jsonArray.getJSONObject(0).getString("U_TYPE").equals("SELLER"))
                 enterSellerScreen(result);
-            else
+            else {
+                Log.i("loading_success", result);
                 enterBuyerScreen(result);
-
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -190,7 +195,9 @@ public class Login extends Fragment implements
         Toast.makeText(getContext(), "Logged in!", Toast.LENGTH_SHORT).show();
         prefs.edit().putBoolean(getString(R.string.LOGIN_STATUS), true).apply();
         prefs.edit().putString(getString(R.string.USERINFO), result).apply();
+        prefs.edit().putString(getString(R.string.U_TYPE), "BUYER").apply();
         startActivity(new Intent(getContext(), MainActivity.class));
+        getActivity().finish();
     }
 
 
@@ -198,6 +205,8 @@ public class Login extends Fragment implements
         Toast.makeText(getContext(), "Logged in!", Toast.LENGTH_SHORT).show();
         prefs.edit().putBoolean(getString(R.string.LOGIN_STATUS), true).apply();
         prefs.edit().putString(getString(R.string.USERINFO), result).apply();
+        prefs.edit().putString(getString(R.string.U_TYPE), "SELLER").apply();
         startActivity(new Intent(getContext(), SellerActivity.class));
+        getActivity().finish();
     }
 }

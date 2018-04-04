@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,9 +18,11 @@ import com.bumptech.glide.request.RequestOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import databaseproject.app.Utility.HttpConnection;
 
-public class ProductActivity extends AppCompatActivity {
+public class BuyerProductActivity extends AppCompatActivity {
 
     private TextView mDateAdded, mProductName, mDesc, mCategory;
     private ImageView mCenterImage;
@@ -37,7 +38,7 @@ public class ProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product);
+        setContentView(R.layout.activity_buyer_product);
 
         prefs = getSharedPreferences(getPackageName(), MODE_PRIVATE);
 
@@ -86,13 +87,24 @@ public class ProductActivity extends AppCompatActivity {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, spinnerQ);
             mSpinner.setAdapter(adapter);
 
-            mAddToCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new GetProductCount().execute();
-                }
-            });
+            if (Objects.equals(prefs.getString(getString(R.string.U_TYPE), null), "SELLER")) {
+                mAddToCart.setText(R.string.Update_Quantity);
 
+                mAddToCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new UpdateQuantity().execute();
+                    }
+                });
+            } else {
+
+                mAddToCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new GetProductCount().execute();
+                    }
+                });
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -185,6 +197,34 @@ public class ProductActivity extends AppCompatActivity {
 
                 finish();
             }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class UpdateQuantity extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+//UPDATE `databaseProject`.`PRODUCT` SET `QUANTITY` = '4' WHERE `PRODUCT`.`P_ID` = 6;
+                HttpConnection.dbConnection("UPDATE PRODUCT SET `QUANTITY` = "+
+                        "'" + mSpinner.getSelectedItem() + "' "+
+                        "WHERE " +
+                        "U_ID = '" + U_ID + "' AND " +
+                        "P_ID = '" + P_ID + "'");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            finish();
         }
     }
 }

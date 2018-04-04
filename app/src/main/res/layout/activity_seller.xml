@@ -13,10 +13,19 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/title"
-        android:text="@string/Seller"
+        android:text="@string/My_Products"
         android:textSize="24sp"
         android:padding="8dp"
         android:textStyle="bold"
+        />
+
+    <ListView
+        android:layout_below="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listView"
+        android:divider="@android:color/black"
+        android:dividerHeight="0.25dp"
         />
 
 </RelativeLayout>

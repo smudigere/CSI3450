@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import databaseproject.app.Utility.HttpConnection;
 import databaseproject.app.Utility.Queries;
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
         }
+
+        if (Objects.equals(prefs.getString(getString(R.string.U_TYPE), null), "SELLER")) {
+            startActivity(new Intent(getApplicationContext(), SellerActivity.class));
+            finish();
+        }
     }
 
 
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.navigation_view, menu);
+        inflater.inflate(R.menu.buyer_menu, menu);
         return true;
     }
 
@@ -73,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements
                 Toast.makeText(this, "Logged Out!", Toast.LENGTH_SHORT).show();
                 prefs.edit().putBoolean(getString(R.string.LOGIN_STATUS), false).apply();
                 prefs.edit().remove(getString(R.string.USERINFO)).apply();
+                prefs.edit().remove(getString(R.string.U_TYPE)).apply();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
                 return true;
@@ -86,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements
 
         try {
 
-            Intent intent = new Intent(getApplicationContext(), ProductActivity.class);
+            Intent intent = new Intent(getApplicationContext(), BuyerProductActivity.class);
             intent.putExtra("JSON", jsonArray.getJSONObject(i).toString());
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
@@ -104,8 +111,6 @@ public class MainActivity extends AppCompatActivity implements
         protected String doInBackground(Void... voids) {
 
             try {
-
-                HttpConnection.dbConnection(Queries.GETALLPRODUCTS.e);
 
                 return HttpConnection
                         .dbConnection(Queries.GETALLPRODUCTS.e);

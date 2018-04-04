@@ -182,6 +182,7 @@ public class SignUp extends Fragment implements
 
                 if (result) {
                     ((LoginActivity) getActivity()).getTabLayout().getTabAt(0).select();
+                    ((Login)((LoginActivity) getActivity()).getLogin()).getUserName().setText(mInputEmail.getText());
                     Toast.makeText(getContext(), "User Created! Now Login!", Toast.LENGTH_SHORT).show();
                 } else
                     HttpConnection.noInternetAlert(getContext());
