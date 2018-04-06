@@ -60,7 +60,7 @@ public class SellerActivity extends AppCompatActivity implements
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 return true;
             case R.id.add_product:
-
+                startActivity(new Intent(getApplicationContext(), AddProductActivity.class));
                 return true;
             case R.id.logout:
 
