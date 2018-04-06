@@ -27,7 +27,7 @@ public class ListViewAdapter extends BaseAdapter {
     private List<JSONObject> jsonObjects;
     private Context context;
 
-    public ListViewAdapter(List<JSONObject> jsonObjects, Context context) {
+    ListViewAdapter(List<JSONObject> jsonObjects, Context context) {
         this.jsonObjects = jsonObjects;
         this.context = context;
     }

@@ -8,18 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Base.Widget.Design.TabLayout"
-        parent="android:Widget"
-        tools:override="true"
-        >
+    <style name="Base.Widget.Design.TabLayout" parent="android:Widget" tools:override="true">
         <item name="tabBackground">@drawable/tab_background</item>
         <item name="tabIndicatorColor">#ff00ff</item>
         <item name="tabIndicatorHeight">2dp</item>
     </style>
 
-    <style name="TabCustomTextAppearence"
-        parent="TextAppearance.Design.Tab">
+    <style name="TabCustomTextAppearence" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
     </style>
+
+    <style name="RoundedCorners" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

@@ -12,6 +12,8 @@ public class LoginActivity extends AppCompatActivity {
     Rect rect;
     Fragment login, signUp;
 
+    private TabLayout tabLayout;
+
     /**
      * Called when the activity is starting.
      *
@@ -31,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         fragment_replacement(login);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setClipToOutline(true);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -60,6 +62,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+    }
+
+
+    protected TabLayout getTabLayout() {
+        return tabLayout;
+    }
+
+    protected Fragment getLogin() {
+        return login;
+    }
+
+    protected Fragment getSignUp() {
+        return signUp;
     }
 
     /**

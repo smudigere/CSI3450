@@ -19,12 +19,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import databaseproject.app.Utility.HttpConnection;
-import databaseproject.app.Utility.Queries;
 
-public class MainActivity extends AppCompatActivity implements
+public class SellerActivity extends AppCompatActivity implements
         AdapterView.OnItemClickListener{
 
     private SharedPreferences prefs;
@@ -33,37 +31,27 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_seller);
 
         prefs = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-
-        if (!prefs.getBoolean(getString(R.string.LOGIN_STATUS), false)) {
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
-        }
-
-        if (Objects.equals(prefs.getString(getString(R.string.U_TYPE), null), "SELLER")) {
-            startActivity(new Intent(getApplicationContext(), SellerActivity.class));
-            finish();
-        }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (prefs.getBoolean(getString(R.string.LOGIN_STATUS), false))
-            new GetProducts().execute();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.buyer_menu, menu);
+        inflater.inflate(R.menu.seller_menu, menu);
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        new GetSellerProducts().execute();
+    }
+
+    @Override
+    public void onBackPressed() {}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -71,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 return true;
-            case R.id.cart:
-                startActivity(new Intent(getApplicationContext(), CartActivity.class));
+            case R.id.add_product:
+
                 return true;
             case R.id.logout:
 
@@ -81,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements
                 prefs.edit().remove(getString(R.string.USERINFO)).apply();
                 prefs.edit().remove(getString(R.string.U_TYPE)).apply();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
 
                 return true;
             default:
@@ -93,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements
 
         try {
 
-            Intent intent = new Intent(getApplicationContext(), BuyerProductActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SellerProductActivity.class);
             intent.putExtra("JSON", jsonArray.getJSONObject(i).toString());
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
@@ -104,18 +93,21 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class GetProducts extends AsyncTask<Void, Void, String> {
-
+    private class GetSellerProducts extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... voids) {
 
             try {
 
-                return HttpConnection
-                        .dbConnection(Queries.GETALLPRODUCTS.e);
+                JSONArray jsonArray = new JSONArray(
+                        prefs.getString(getString(R.string.USERINFO), null)
+                );
 
-            } catch (Exception e){
+                return HttpConnection.dbConnection("SELECT * FROM `PRODUCT` WHERE U_ID = " +
+                                                jsonArray.getJSONObject(0).getString("U_ID"));
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -123,12 +115,12 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
 
             try {
 
-                jsonArray = new JSONArray(s);
+                jsonArray = new JSONArray(result);
                 List<JSONObject> jsonObjects = new ArrayList<>();
                 ListView listView = (ListView) findViewById(R.id.listView);
 
@@ -137,7 +129,8 @@ public class MainActivity extends AppCompatActivity implements
 
                 ListViewAdapter adapter = new ListViewAdapter(jsonObjects, getApplicationContext());
                 listView.setAdapter(adapter);
-                listView.setOnItemClickListener(MainActivity.this);
+                listView.setOnItemClickListener(SellerActivity.this);
+
 
             } catch (Exception e) {
                 e.printStackTrace();
