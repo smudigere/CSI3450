@@ -2,8 +2,11 @@ package databaseproject.app;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -63,9 +66,7 @@ public class CartActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.checkout:
-
-
-
+                new CheckOut().execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -84,6 +85,8 @@ public class CartActivity extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray(
                         prefs.getString(getString(R.string.USERINFO), null)
                 );
+
+                U_ID = jsonArray.getJSONObject(0).getInt("U_ID");
 
                 return HttpConnection
                         .dbConnection(Queries.GETCARTOFUSER.e +
@@ -129,26 +132,114 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
+    private class CheckOut extends AsyncTask<Void, Void, Float> {
 
-    private class CheckOut extends AsyncTask<Void, Void, Void> {
+        String API_RESULT;
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            if (jsonObjects.size() == 0) {
+                Toast.makeText(CartActivity.this, "Empty Cart", Toast.LENGTH_SHORT).show();
+                cancel(true);
+                finish();
+            }
+        }
+
+        @Override
+        protected Float doInBackground(Void... voids) {
 
             try {
-//UPDATE `databaseProject`.`PRODUCT` SET `QUANTITY` = '3' WHERE `PRODUCT`.`P_ID` = 1;
-                for (JSONObject jsonObject: jsonObjects) {
 
-                    jsonObject.getString("QUANTITY");
+                API_RESULT = HttpConnection.dbConnection("SELECT CART.C_ID, PRODUCT.P_ID, PRODUCT.PRICE, CART.QUANTITY, PRODUCT.QUANTITY AS P_QUANTITY FROM CART " +
+                        "JOIN PRODUCT " +
+                        "ON " +
+                        "CART.P_ID = PRODUCT.P_ID " +
+                        "WHERE CART.U_ID = 6 AND " +
+                        "CART.QUANTITY != 0");
 
+                JSONArray jsonArray = new JSONArray(API_RESULT);
+                float totalPrice = 0;
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    totalPrice += jsonArray.getJSONObject(i).getDouble("PRICE") *
+                                    jsonArray.getJSONObject(i).getInt("QUANTITY");
                 }
 
-                HttpConnection.dbConnection("DELETE FROM CART WHERE U_ID = " + U_ID
-                                                );
+                return totalPrice;
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return 0f;
+        }
+
+        @Override
+        protected void onPostExecute(Float aFloat) {
+            super.onPostExecute(aFloat);
+
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(CartActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(CartActivity.this);
+            }
+            builder.setTitle("Check Out")
+                    .setMessage("Your Total at Check Out is " + aFloat)
+                    .setPositiveButton("Check Out", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            new UpdateProducts().execute(API_RESULT);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class UpdateProducts extends AsyncTask<String, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            try {
+
+                //1. Update quantity in Product Table
+                //2. Delete all the Cart Rows.
+
+                JSONArray jsonArray = new JSONArray(params[0]);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    int q = jsonArray.getJSONObject(i).getInt("P_QUANTITY") -
+                                jsonArray.getJSONObject(i).getInt("QUANTITY");
+                    HttpConnection.dbConnection("UPDATE PRODUCT SET QUANTITY = " + q +
+                                                    " WHERE P_ID = " + jsonArray.getJSONObject(i).getInt("P_ID"));
+                }
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    HttpConnection.dbConnection("DELETE FROM CART WHERE C_ID = " +
+                                                    jsonArray.getJSONObject(i).getInt("C_ID"));
+                }
+
+                } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            finish();
         }
     }
 }

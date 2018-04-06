@@ -139,6 +139,9 @@ public class MainActivity extends AppCompatActivity implements
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(MainActivity.this);
 
+                if (jsonArray.length() == 0)
+                    Toast.makeText(MainActivity.this, "No Products in Inventory", Toast.LENGTH_SHORT).show();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -14,6 +14,7 @@
     <string name="Product_Name">Product Name</string>
     <string name="Description">Description</string>
     <string name="Price">Price</string>
+    <string name="Price_c">Price:\t\t</string>
     <string name="Submit">Submit</string>
     <string name="Add_Product">Add Product</string>
     <string name="Update_Quantity">Update Quantity</string>

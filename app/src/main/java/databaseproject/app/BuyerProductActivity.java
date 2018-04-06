@@ -24,7 +24,7 @@ import databaseproject.app.Utility.HttpConnection;
 
 public class BuyerProductActivity extends AppCompatActivity {
 
-    private TextView mDateAdded, mProductName, mDesc, mCategory;
+    private TextView mDateAdded, mProductName, mDesc, mCategory, mPrice;
     private ImageView mCenterImage;
     private Spinner mSpinner;
     private Button mAddToCart;
@@ -51,6 +51,7 @@ public class BuyerProductActivity extends AppCompatActivity {
         mDesc = (TextView) findViewById(R.id.description);
         mSpinner = (Spinner) findViewById(R.id.spinner1);
         mAddToCart = (Button) findViewById(R.id.addToCart);
+        mPrice = (TextView) findViewById(R.id.price_text);
 
         try {
 
@@ -78,6 +79,7 @@ public class BuyerProductActivity extends AppCompatActivity {
             mDateAdded.append(jsonObject.getString("DATE_ADDED"));
             mCategory.append(jsonObject.getString("CATEGORY"));
             mDesc.setText(jsonObject.getString("DESCRIPTION"));
+            mPrice.append(jsonObject.getString("PRICE"));
 
             String[] spinnerQ = new String[jsonObject.getInt("QUANTITY")];
 
