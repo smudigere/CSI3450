@@ -71,17 +71,14 @@
                 android:hint="@string/Category_c"
                 />
 
-            <ImageView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="100dp"
-                android:maxHeight="100dp"
-                android:adjustViewBounds="true"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/category"
-                android:id="@+id/image"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/product_chair"
+                android:id="@+id/image"
+                android:layout_below="@+id/category"
+                android:hint="@string/Image_Link"
                 />
 
             <EditText
@@ -96,6 +93,7 @@
                 />
 
             <Button
+                android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
